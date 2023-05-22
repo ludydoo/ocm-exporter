@@ -57,7 +57,7 @@ func (c *ocmCollector) Collect(ch chan<- prometheus.Metric) {
 		} else {
 			fmt.Printf("Failed to create consumed metric: %v\n", err)
 		}
-		allowedMetric := prometheus.MustNewConstMetric(c.quotas, prometheus.GaugeValue, float64(allowed), orgID, quotaID, valueAllowed)
+		allowedMetric, err := prometheus.NewConstMetric(c.quotas, prometheus.GaugeValue, float64(allowed), orgID, quotaID, valueAllowed)
 		if err == nil {
 			ch <- allowedMetric
 		} else {
