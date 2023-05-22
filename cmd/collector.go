@@ -42,7 +42,7 @@ func (c *ocmCollector) Collect(ch chan<- prometheus.Metric) {
 		Send()
 
 	if err != nil {
-		fmt.Printf("Failed to retrieve quota: %v\n", err)
+		fmt.Printf("[quota cost] failed to retrieve quota costs: %v\n", err)
 		return
 	}
 
@@ -55,13 +55,13 @@ func (c *ocmCollector) Collect(ch chan<- prometheus.Metric) {
 		if err == nil {
 			ch <- consumedMetric
 		} else {
-			fmt.Printf("Failed to create consumed metric: %v\n", err)
+			fmt.Printf("[quota cost] failed to create consumed metric: %v\n", err)
 		}
 		allowedMetric, err := prometheus.NewConstMetric(c.quotas, prometheus.GaugeValue, float64(allowed), orgID, quotaID, valueAllowed)
 		if err == nil {
 			ch <- allowedMetric
 		} else {
-			fmt.Printf("Failed to create allowed metric: %v\n", err)
+			fmt.Printf("[quota cost] failed to create allowed metric: %v\n", err)
 		}
 		return true
 	})
